@@ -34,7 +34,10 @@ Users can place asymetrical bets with higher rewards or lower risks, for example
 
 # Idea 2: PC games Library as NFT's on a Blockchain
 
-There are many different platforms for buying games online (steam, ubisoft, origin, ...) but if you buy one game in one onlinestore, you cant transfer it and it is bound to this account forever.
-If each game is minted as an NFT when bought, it would be possible to sell games you dont need anymore, similiar to how it was with CD's. You would need only one Game Library in which you log in with your ETH Adress. To create an incentive to buy new games the number of times a game can be transfered can be limited or a freshly minted game brings special rewards.
+There are many different platforms for buying games online (steam, ubisoft, origin, ...) but if you buy one game in one onlinestore, you cant transfer it and it is bound to this account forever. A decentraliced proof that you own a game is needed!
+If each game is minted as an NFT when bought, it would be possible to sell games you dont need anymore, similiar to how it was with CD's and increase the security in case a platform gets hacked and you loose acces to your account. You would need only one Game Library in which you log in with your ETH Adress. 
 
-A game developement studio adds the possibility to buy games as NFTs.
+To create an incentive for the game studios the number of times a game can be transfered can be limited, a freshly minted game brings special rewards or a transfer fee is implemented.
+
+## How it would work
+A game developement studio adds the possibility to buy games as NFTs.<br>
