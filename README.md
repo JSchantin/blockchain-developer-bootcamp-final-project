@@ -1,11 +1,11 @@
 # Final Project Ideas
 
 
-# Idea 1: Block Hash coin toss game on a ETH smartcontract without participation fee
+# Idea 1: Block Hash coin toss game on a ETH smart contract without participation fee
 
 This Game is similar to a coin toss. <br>
 The User can make a bet whether the next for this game selected Block will have an even or odd hash. (every 100th Block is selected so a game takes around 25 minutes. This variable can also be dynamic to ensure enough bets were placed.)
-If he guessed right, he will earn the bets of those, who guessed wrong. <br>
+If he guessed right, he would earn the bets of those who guessed wrong. <br>
 
 
 ## Game Phases
@@ -29,8 +29,9 @@ If user loses, he will lose his bet to the winners <br>
 User van withdraw funds deposited to the contract <br>
 
 ## Possible additional features
-Users can place asymetrical bets with higher rewards or lower risks, for example the last character of the hash is less/more than 5.
+Users can place asymmetrical bets with higher rewards or lower risks, for example the last character of the hash is less/more than 5.
 
 # Idea 2: A Chess game on the Blockchain
 
-For very important games of chess, it can be neccessairy to keep the record of every move made secure for a very long time and to make sure every player had the intention to move a piece exactly as he moved it. A smartcontract can be used to ensure all of this. Each move will be represented by a transaction.
+For very important games of chess, it can be necessary to keep the record of every move made secure for a very long time and to make sure every player had the intention to move a piece exactly as he moved it. A smart contract can be used to ensure all of this. Each move will be represented by a transaction.
+
