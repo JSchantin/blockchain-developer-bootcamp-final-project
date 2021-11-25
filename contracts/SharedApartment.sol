@@ -11,7 +11,6 @@ contract SharedApartment is Ownable {
   uint public rent = 100;
   uint public rentToCollect;
   uint public rentLastCollected;
-  uint public fund;
 
   mapping(address => Renter) public renters;
   address[] public renterAddresses;
@@ -19,9 +18,7 @@ contract SharedApartment is Ownable {
     address renterAddress;
     uint renterId;
     uint16 strikes;
-    uint paidExtra;
     bool paidRent;
-    uint saToken;
   }
 
 
@@ -30,10 +27,8 @@ contract SharedApartment is Ownable {
   event renterAdded(Renter indexed renter);
   event renterRemoved(Renter indexed renter);
   event rentPaid(Renter indexed renter);
-  event paidInFund(Renter indexed renter);
   event rentSet(uint indexed rent);
   event rentCollected(uint indexed rentCollected, uint indexed time);
-  event saTokenGiven(address indexed givenTo, uint indexed amount);
 
   // Modifiers
 
@@ -59,7 +54,7 @@ contract SharedApartment is Ownable {
     require(_renterAddress != renters[_renterAddress].renterAddress, "renter allready added!");
 
     // add the renter
-    Renter memory renter = Renter(_renterAddress, renterAddresses.length, 0, 0, false, 0);
+    Renter memory renter = Renter(_renterAddress, renterAddresses.length, 0, false);
     renters[_renterAddress] = renter;
     renterAddresses.push(_renterAddress);
 
@@ -112,20 +107,5 @@ contract SharedApartment is Ownable {
     renters[msg.sender].paidRent = true;
     rentToCollect += rent;
     emit rentPaid(renters[msg.sender]);
-
-    // give renter SharedApartment Token for paying in Time
-    renters[msg.sender].saToken += 100;
-    emit saTokenGiven(renters[msg.sender].renterAddress, 100);
-  }
-
-  /// @notice lets the renter pay in the fund and rewards him with saTokens
-  function payInFund() external payable isRenter(msg.sender) {
-    renters[msg.sender].paidExtra += msg.value;
-    fund += msg.value;
-    emit paidInFund(renters[msg.sender]);
-
-    // give renter SharedApartment Token
-    renters[msg.sender].saToken += msg.value;
-    emit saTokenGiven(renters[msg.sender].renterAddress, msg.value);
   }
 }

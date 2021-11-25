@@ -7,12 +7,6 @@ const SharedApartment = artifacts.require("SharedApartment");
  */
 contract("SharedApartment", function ( accounts ) {
 
-  it("owner exists and is deployment account", async function() {
-    const saInstance = await SharedApartment.deployed();
-    const theOwner = await saInstance.owner();
-    assert.equal(theOwner, accounts[0], "deployment account is not the owner or owner does not exist!");
-  });
-
   it("owner can set rent", async function() {
     const saInstance = await SharedApartment.deployed();
     const theOwner = await saInstance.owner();
@@ -26,6 +20,15 @@ contract("SharedApartment", function ( accounts ) {
     await saInstance.addRenter(accounts[2]);
     const theRenter = await saInstance.renters(accounts[2]);     
     assert.equal(theRenter.renterAddress, accounts[2], "Renter was not saved");
+  });
+
+  it("renter can not set rent", async function() {
+    const saInstance = await SharedApartment.deployed();
+    try {
+      await saInstance.setRent(1, {from: accounts[2]});
+    } catch {}
+    const theRent = await saInstance.rent();
+    assert.equal(theRent, 1000, "Renter can modify the rent!")
   });
 
   it("renter can be accessed by address", async function () {
@@ -57,17 +60,6 @@ contract("SharedApartment", function ( accounts ) {
     assert.deepEqual(theRRTC, theRent, "The rentToCollect is not equal to the rent paid!");
     assert.isTrue(theRenter.paidRent, "it was not saved that the renter has paid rent!")
   });
-
-  it("renter can pay in fund", async function() {
-    const saInstance = await SharedApartment.deployed();
-    let theRenter = await saInstance.renters(accounts[2]);  
-    const theRent = await saInstance.rent();   
-    await saInstance.payInFund({from: theRenter.renterAddress, value: 100});
-    theRenter = await saInstance.renters(accounts[2]);  
-    let theFund = await saInstance.fund();
-    assert.equal(theFund.toNumber(), 100, "Fund is not equal to funds paid into fund!");
-    assert.equal(theRenter.paidExtra.toNumber(), 100, "Source of funds was not saved!")
-    });
 
   it("owner can collect rent", async function() {
     const saInstance = await SharedApartment.deployed();
