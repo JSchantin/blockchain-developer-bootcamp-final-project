@@ -341,7 +341,7 @@ const abi = [
       "type": "function"
     }
   ]
-const saAddress = '0x7D557F23a160F0c1a02FEff81196b349Ba3dB024'
+const saAddress = '0x57764D0034B18FA8aA2CC76AA422cd97d5699Dc4'
 const sharedApartment = new web3.eth.Contract(abi, saAddress)
 sharedApartment.setProvider(window.ethereum)
 
