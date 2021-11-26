@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shared Apartment</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+<body style="font-family: sans-serif;">
+    <div class="pure-g" style="background-color:#6495ed;">
+        <div class="pure-u-1-2"><h1>Shared Apartment</h1></div>
+        <div class="pure-u-1-2" style="text-align: right;">
+            <button class="pure-button" id="connect-mm">Connect MetaMask</button>
+            <div>Connected to: <span id="address">Wallet not Connected!</span></div>
+        </div>
+    </div>
+    <div class="pure-g">
+
+    </div>
+
+    <div class="pure-g">
+        <div class="pure-u-1-5"></div>
+        <div class="pure-u-3-5">
+            <div class="pure-g" style="background-color: #f2f4f8">
+                <div class="pure-u-1-5"></div>
+                <div class="pure-u-3-5">
+                    <h2>Shared Apartment owner<br/><span id="ownerAddress">
+                        Please install MetaMask
+                    </span></h2>
+                    <div class="pure-form pure-form-aligned" id="owner-form">
+                        <fieldset>
+                            <div class="pure-control-group">
+                                <h2>Add renter</h2>
+                                <label for="add-renter">Renter address</label>
+                                <input type="text" id="add-renter" placeholder="Address" />
+                            </div>
+                            <div class="pure-controls">
+                                <button class="pure-button pure-button-primary" onclick="addRenter()">Add</button>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="pure-control-group">
+                                <h2>Remove renter</h2>
+                                <label for="remove-renter">Renter address</label>
+                                <input type="text" id="remove-renter" placeholder="Address" />
+                            </div>
+                            <div class="pure-controls">
+                                <button class="pure-button pure-button-primary" onclick="removeRenter()">Remove</button>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="pure-control-group">
+                                <h2>Set rent</h2>
+                                <label for="new-rent">New rent</label>
+                                <input type="text" min="0" id="new-rent" placeholder="Rent in ETH" />
+                            </div>
+                            <div class="pure-controls">
+                                <button class="pure-button pure-button-primary" onclick="setRent()">Set new rent</button>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="pure-control-group">
+                                <h2>Collect Rent</h2>
+                                <label for="rent-to-collect">Rent to collect</label>
+                                <input readonly="" type="text" id="rent-to-collect" value="ERROR" />
+                            </div>
+                            <div class="pure-control-group">
+                                <label for="rent-last-collected">Rent last collected</label>
+                                <input readonly="" type="text" id="rent-last-collected" value="ERROR" />
+                            </div>
+                            <div class="pure-controls">
+                                <button class="pure-button pure-button-primary" onclick="collectRent()">Collect</button>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="pure-form pure-form-aligned" id="renter-form">
+                        <fieldset>
+                            <div class="pure-control-group">
+                                <h2>Pay Rent</h2>
+                                <label for="pay-rent">Rent to pay</label>
+                                <input type="text" readonly="" id="pay-rent" placeholder="ERROR" />
+                            </div>
+                            <div class="pure-controls">
+                                <button class="pure-button pure-button-primary" onclick="payRent()">Pay rent</button>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <div class="pure-form pure-form-aligned" id="newbie-form">
+                        <fieldset>
+                            <div class="pure-control-group">
+                                <h2>Create your Shared Apartment contract</h2>
+                            </div>
+                            <div class="pure-controls">
+                                <button class="pure-button pure-button-primary" onclick="">Create</button>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="pure-u-1-5"></div>
+            </div>
+        </div>
+        <div class="pure-u-1-5"></div>
+    </div>
+        
+
+    <footer style="background-color:cornflowerblue; position: absolute; width: 100%;">
+        <div class="pure-g">
+            <div class="pure-u-1-5"></div>
+            <div class="pure-u-3-5" style="text-align: center; padding: 2em 0em; color: white;">
+                Consensys Academy blockchaindeveloper bootcamp 2021 Final Project
+            </div>
+            <div class="pure-u-1-5"></div>
+        </div>
+    </footer>
+    
+    <script src="dapp.js"></script>
+</body>
+</html>
