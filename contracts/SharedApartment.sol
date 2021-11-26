@@ -11,6 +11,7 @@ contract SharedApartment is Ownable {
   uint public rent = 100;
   uint public rentToCollect;
   uint public rentLastCollected;
+  uint8 private maxRenters = 200; // max renters to prevent for loop becoming to big
 
   mapping(address => Renter) public renters;
   address[] public renterAddresses;
@@ -40,9 +41,14 @@ contract SharedApartment is Ownable {
   // Functions
 
   constructor() {
-    // for testing
     rentLastCollected = block.timestamp - 31 days;
   }
+
+  // /// @notice sets the rentLastCollected back 31 days. ONLY FOR DEMONSTRATION, REMOVE FUNCTION BEFORE REAL WORLD USAGE
+  // function resetRentLastCollected() public {
+  //   rentLastCollected = block.timestamp - 31 days;
+  //   // TODO remove before usage!
+  // }
 
   /// @notice override renouncing ownership - does nothing
   function renounceOwnership() override public pure {} // renouncing ownership would make the contract useless
@@ -52,6 +58,7 @@ contract SharedApartment is Ownable {
   function addRenter(address _renterAddress) external onlyOwner() {
     // make sure renters can't be addet twice
     require(_renterAddress != renters[_renterAddress].renterAddress, "renter allready added!");
+    require(renterAddresses.length < maxRenters);
 
     // add the renter
     Renter memory renter = Renter(_renterAddress, renterAddresses.length, 0, false);
@@ -83,8 +90,7 @@ contract SharedApartment is Ownable {
     /// @notice Checks if 30 days passed since the rent was last collected, transferes the "rent to collect" to the owner, gives renters strikes accordingly and resets their rent paid status
   function collectRent() external onlyOwner() {
     require(block.timestamp >= rentLastCollected + 30 days, "Rent was allready collected this month!");
-    // TODO use other function to transfer eth
-    bool sent = payable(owner()).send(rentToCollect);
+    (bool sent, bytes memory data) = payable(owner()).call{value: rentToCollect}("");
     require(sent, "Failed to send Ether");
     emit rentCollected(rentToCollect, block.timestamp);
     rentLastCollected = block.timestamp;
