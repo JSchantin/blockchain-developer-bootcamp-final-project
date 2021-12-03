@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import '@openzeppelin/upgrades/contracts/Initializable.sol';
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+/// @title Shared Apartment
 /// @notice A smart contract that enables an owner to collect rent from a shared apartment
 contract SharedApartment is Ownable {
 
@@ -11,7 +13,7 @@ contract SharedApartment is Ownable {
   uint public rent = 100;
   uint public rentToCollect;
   uint public rentLastCollected;
-  uint8 private maxRenters = 200; // max renters to prevent for loop becoming to big
+  uint8 private maxRenters = 100; // max renters to prevent for loop in collectRent() getting to big
 
   mapping(address => Renter) public renters;
   address[] public renterAddresses;
@@ -25,9 +27,9 @@ contract SharedApartment is Ownable {
 
   // Events
 
-  event renterAdded(Renter indexed renter);
-  event renterRemoved(Renter indexed renter);
-  event rentPaid(Renter indexed renter);
+  event renterAdded(address indexed renter);
+  event renterRemoved(address indexed renter);
+  event rentPaid(address indexed renter);
   event rentSet(uint indexed rent);
   event rentCollected(uint indexed rentCollected, uint indexed time);
 
@@ -44,6 +46,10 @@ contract SharedApartment is Ownable {
     rentLastCollected = block.timestamp - 31 days;
   }
 
+  /// @notice fallback function always reverts
+  fallback() external payable {
+    revert("Use the payRent function to pay rent!");
+  }
   // /// @notice sets the rentLastCollected back 31 days. ONLY FOR DEMONSTRATION, REMOVE FUNCTION BEFORE REAL WORLD USAGE
   // function resetRentLastCollected() public {
   //   rentLastCollected = block.timestamp - 31 days;
@@ -53,8 +59,14 @@ contract SharedApartment is Ownable {
   /// @notice override renouncing ownership - does nothing
   function renounceOwnership() override public pure {} // renouncing ownership would make the contract useless
 
-    /// @notice Adds a Renter and makes sure the renter can not be added twice
-    /// @param  _renterAddress the eth address of the renter to be added
+  /// @notice A function that returns the amount of renters registerd in the contract
+  /// @return uint lenght of renterAddresses array
+  function renterAddressesLength() external view returns(uint) {
+    return renterAddresses.length;
+  }
+
+  /// @notice Adds a Renter and makes sure the renter can not be added twice
+  /// @param  _renterAddress the eth address of the renter to be added
   function addRenter(address _renterAddress) external onlyOwner() {
     // make sure renters can't be addet twice
     require(_renterAddress != renters[_renterAddress].renterAddress, "renter allready added!");
@@ -65,16 +77,17 @@ contract SharedApartment is Ownable {
     renters[_renterAddress] = renter;
     renterAddresses.push(_renterAddress);
 
-    emit renterAdded(renter);
+    emit renterAdded(renter.renterAddress);
   }
 
     /// @notice removes a Renter that has been added previousely
     /// @param  _renterAddress the eth address of the renter to be removed
   function removeRenter(address _renterAddress) external onlyOwner() isRenter(_renterAddress) {
-    emit renterRemoved(renters[_renterAddress]);
+    emit renterRemoved(_renterAddress);
 
+    renters[renterAddresses[renterAddresses.length - 1]].renterId = renters[_renterAddress].renterId; // give new renter id to renter that takes the place of the renter to delete
+    renterAddresses[renters[_renterAddress].renterId] = renterAddresses[renterAddresses.length - 1]; // overwrite renterAddresses address of the renter to delete with last address of this array
     // delete renter address from renterAddresses and delete renter from renters mapping
-    renterAddresses[renters[_renterAddress].renterId] = renterAddresses[renterAddresses.length - 1];
     renterAddresses.pop();
     delete renters[_renterAddress];
   }
@@ -112,6 +125,6 @@ contract SharedApartment is Ownable {
     require(!(renters[msg.sender].paidRent), "You have allready paid rent this month!");
     renters[msg.sender].paidRent = true;
     rentToCollect += rent;
-    emit rentPaid(renters[msg.sender]);
+    emit rentPaid(msg.sender);
   }
 }

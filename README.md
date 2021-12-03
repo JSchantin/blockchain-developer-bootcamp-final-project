@@ -14,3 +14,9 @@ The owner of the apartment can use this smartcontract to keep track of the rent 
 - paying rent will also result in a small DormToken reward
 - renters can vote with these tokens about how the money in the fund is spent (for example buy new chairs, ...) in the process these tokens are burned
 - the owner can remove renters form the contract
+
+### Frontend
+https://lordjohn1.github.io/blockchain-developer-bootcamp-final-project/
+
+
+ ETH Address for certification: 0x817662b2a3aDdb62295846fB29Cd3c4cC6adCC38

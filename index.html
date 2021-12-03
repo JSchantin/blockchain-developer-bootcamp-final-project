@@ -7,13 +7,28 @@
     <title>Shared Apartment</title>
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <style type="text/css">
+        .renter-box {
+            background-color: thistle;
+            margin: 3px;
+            padding: 1em;
+            max-width: 15em;
+            line-break: anywhere;
+        }
+        #renter-list {
+            max-height: 30em;
+            overflow-y: scroll;
+        }
+    </style>
 </head>
 <body style="font-family: sans-serif;">
     <div class="pure-g" style="background-color:#6495ed;">
-        <div class="pure-u-1-2"><h1>Shared Apartment</h1></div>
+        <div class="pure-u-1-2"><h1 style="padding-left: 1em;">Shared Apartment</h1></div>
         <div class="pure-u-1-2" style="text-align: right;">
-            <button class="pure-button" id="connect-mm">Connect MetaMask</button>
-            <div>Connected to: <span id="address">Wallet not Connected!</span></div>
+            <div style="padding: 1em;">
+                <button class="pure-button" id="connect-mm" onclick="connectMM()">Connect MetaMask</button>
+                <div style="margin-top: 5px;">Connected to: <span id="address">Wallet not Connected!</span></div>
+            </div>
         </div>
     </div>
     <div class="pure-g">
@@ -26,62 +41,52 @@
             <div class="pure-g" style="background-color: #f2f4f8">
                 <div class="pure-u-1-5"></div>
                 <div class="pure-u-3-5">
+                    <noscript>Please turn on Javascript!</noscript>
                     <h2>Shared Apartment owner<br/><span id="ownerAddress">
-                        Please install MetaMask
+                        Something went wrong!
                     </span></h2>
-                    <div class="pure-form pure-form-aligned" id="owner-form">
-                        <fieldset>
-                            <div class="pure-control-group">
-                                <h2>Add renter</h2>
-                                <label for="add-renter">Renter address</label>
-                                <input type="text" id="add-renter" placeholder="Address" />
+                    <div class="pure-form pure-form-aligned" id="owner-form" style="display: none;">
+                        <h2>Renter management</h2>
+                        <p>You can add new renters by address, check the status of renters and remove them.</p>
+                        <div class="pure-g" id="renter-list">
+                            <div class="pure-u" style="background-color: rgb(184, 236, 252); padding: 1em; margin: 3px;">
+                                <h3>Add renter</h3>
+                                    <label for="add-renter">Renter address</label><br/><br/>
+                                    <input type="text" id="add-renter" placeholder="Address" /><br/><br/>
+                                    <button class="pure-button pure-button-primary" onclick="addRenter()">Add</button>
                             </div>
-                            <div class="pure-controls">
-                                <button class="pure-button pure-button-primary" onclick="addRenter()">Add</button>
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <div class="pure-control-group">
-                                <h2>Remove renter</h2>
-                                <label for="remove-renter">Renter address</label>
-                                <input type="text" id="remove-renter" placeholder="Address" />
-                            </div>
-                            <div class="pure-controls">
-                                <button class="pure-button pure-button-primary" onclick="removeRenter()">Remove</button>
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <div class="pure-control-group">
-                                <h2>Set rent</h2>
-                                <label for="new-rent">New rent</label>
-                                <input type="text" min="0" id="new-rent" placeholder="Rent in ETH" />
-                            </div>
-                            <div class="pure-controls">
-                                <button class="pure-button pure-button-primary" onclick="setRent()">Set new rent</button>
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <div class="pure-control-group">
-                                <h2>Collect Rent</h2>
-                                <label for="rent-to-collect">Rent to collect</label>
-                                <input readonly="" type="text" id="rent-to-collect" value="ERROR" />
-                            </div>
-                            <div class="pure-control-group">
-                                <label for="rent-last-collected">Rent last collected</label>
-                                <input readonly="" type="text" id="rent-last-collected" value="ERROR" />
-                            </div>
-                            <div class="pure-controls">
-                                <button class="pure-button pure-button-primary" onclick="collectRent()">Collect</button>
-                            </div>
-                        </fieldset>
+                        </div>                            
+                        <div class="pure-control-group">
+                            <h2>Set rent</h2>
+                            <label for="new-rent">New rent</label>
+                            <input type="text" min="0" id="new-rent" placeholder="Rent in ETH" />
+                        </div>
+                        <div class="pure-controls">
+                            <button class="pure-button pure-button-primary" onclick="setRent()">Set new rent</button>
+                        </div>
+                        <div class="pure-control-group">
+                            <h2>Collect Rent</h2>
+                            <p>After you collect rent you must wait 30 days to do it again. Every renter that has not paid rent when you collect it will get a strike.</p>
+                            <label for="rent-to-collect">Rent to collect</label>
+                            <input readonly="" type="text" id="rent-to-collect" value="Something went wrong" />
+                        </div>
+                        <div class="pure-control-group">
+                            <label for="rent-last-collected">Rent last collected</label>
+                            <input readonly="" type="text" id="rent-last-collected" value="Something went wrong" />
+                        </div>
+                        <div class="pure-controls">
+                            <button class="pure-button pure-button-primary" onclick="collectRent()">Collect</button>
+                        </div>
+                        <br/>
                     </div>
 
-                    <div class="pure-form pure-form-aligned" id="renter-form">
+                    <div class="pure-form pure-form-aligned" id="renter-form" style="display: none;">
                         <fieldset>
                             <div class="pure-control-group">
                                 <h2>Pay Rent</h2>
+                                <p>Rent must be paid once every 30 days. You can only pay the whole rent at once.</p>
                                 <label for="pay-rent">Rent to pay</label>
-                                <input type="text" readonly="" id="pay-rent" placeholder="ERROR" />
+                                <input type="text" readonly="" id="pay-rent" placeholder="Something went wrong" />
                             </div>
                             <div class="pure-controls">
                                 <button class="pure-button pure-button-primary" onclick="payRent()">Pay rent</button>
@@ -89,13 +94,13 @@
                         </fieldset>
                     </div>
 
-                    <div class="pure-form pure-form-aligned" id="newbie-form">
+                    <div class="pure-form pure-form-aligned" id="newbie-form" style="display: block;">
                         <fieldset>
                             <div class="pure-control-group">
-                                <h2>Create your Shared Apartment contract</h2>
+                                <h2 id="start-text">Your wallet is not connected!</h2>
                             </div>
                             <div class="pure-controls">
-                                <button class="pure-button pure-button-primary" onclick="">Create</button>
+                                <button class="pure-button pure-button-primary" onclick="connectMM()" id="start-button">Connect Wallet</button>
                             </div>
                         </fieldset>
                     </div>
