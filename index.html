@@ -42,9 +42,9 @@
                 <div class="pure-u-1-5"></div>
                 <div class="pure-u-3-5">
                     <noscript>Please turn on Javascript!</noscript>
-                    <h2>Shared Apartment owner<br/><span id="ownerAddress">
+                    <h2>Shared Apartment owner<br/><i><span id="ownerAddress">
                         Something went wrong!
-                    </span></h2>
+                    </span></i></h2>
                     <div class="pure-form pure-form-aligned" id="owner-form" style="display: none;">
                         <h2>Renter management</h2>
                         <p>You can add new renters by address, check the status of renters and remove them.</p>
@@ -84,7 +84,7 @@
                         <fieldset>
                             <div class="pure-control-group">
                                 <h2>Pay Rent</h2>
-                                <p>Rent must be paid once every 30 days. You can only pay the whole rent at once.</p>
+                                <p>Rent must be paid once every 30 days. You can only pay the whole rent at once. Not paying before the rent is collected will result in a strike!</p>
                                 <label for="pay-rent">Rent to pay</label>
                                 <input type="text" readonly="" id="pay-rent" placeholder="Something went wrong" />
                             </div>
@@ -97,13 +97,30 @@
                     <div class="pure-form pure-form-aligned" id="newbie-form" style="display: block;">
                         <fieldset>
                             <div class="pure-control-group">
+                                <h2 id="start-text">Create your own shared apartment or login as a renter</h2>
+                                <p>Create your shared apartment to collect rent and manage renters via the blockchain! Be aware that there is only one apartment per address possible!</p>
+                            </div>
+                            <div class="pure-controls">
+                                <button class="pure-button pure-button-primary" onclick="createApartment()">Create a shared apartment</button><br/><br/><br/>
+                            </div>
+                            <p>If you have already created an apartment or are a renter in an apartment, enter the address of the apartment owner below (also if you are the owner). If not, ask the owner to add you as a renter.</p>
+                            <div class="pure-controls">
+                                <input type="text" id="owner-address" placeholder="Address of apartment owner" />
+                                <button class="pure-button pure-button-primary" id="set-owner">Enter shared apartment</button><br/><br/><br/>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <!-- <div class="pure-form pure-form-aligned" id="nowallet-form" style="display: block;">
+                        <fieldset>
+                            <div class="pure-control-group">
                                 <h2 id="start-text">Your wallet is not connected!</h2>
                             </div>
                             <div class="pure-controls">
                                 <button class="pure-button pure-button-primary" onclick="connectMM()" id="start-button">Connect Wallet</button>
                             </div>
                         </fieldset>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="pure-u-1-5"></div>
             </div>
@@ -123,5 +140,6 @@
     </footer>
     
     <script src="dapp.js"></script>
+    <script>fillForms()</script>
 </body>
 </html>

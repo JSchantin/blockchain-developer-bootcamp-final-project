@@ -1,71 +1,68 @@
-const SharedApartment = artifacts.require("SharedApartment");
+const SharedApartmentFactory = artifacts.require("SharedApartmentFactory");
 
 /*
  * uncomment accounts to access the test accounts made available by the
  * Ethereum client
  * See docs: https://www.trufflesuite.com/docs/truffle/testing/writing-tests-in-javascript
  */
-contract("SharedApartment", function ( accounts ) {
+contract("SharedApartmentFactory", function ( accounts ) {
 
-  it("owner can set rent", async function() {
-    const saInstance = await SharedApartment.deployed();
-    const theOwner = await saInstance.owner();
-    await saInstance.setRent(1000, {from: theOwner});
-    const theRent = await saInstance.rent();
-    assert.equal(theRent, 1000, "Rent is was not set correctly!")
+  // creates a new appartment with owner accounts[0] and checks if apartment exists
+  it("Apartment can be created", async function() {
+    const sa = await SharedApartmentFactory.deployed()
+    await sa.createApartment()
+    const ap = await sa.addressToApartment(accounts[0])
+    assert(ap.owner != '0x0000000000000000000000000000000000000000', "Apartment was not created correctly!")
   });
 
+  // deletes the apartment from previous test
+  it("Apartment can be deleted", async function() {
+    const sa = await SharedApartmentFactory.deployed()
+    await sa.deleteApartment()
+    const ap = await sa.addressToApartment(accounts[0])
+    assert(ap.owner == '0x0000000000000000000000000000000000000000', "Apartment was not deleted correctly!")
+  });
+
+  // creates a new apartment and adds a renter to it
   it("renter can be added", async function () {
-    const saInstance = await SharedApartment.deployed();
-    await saInstance.addRenter(accounts[2]);
-    const theRenter = await saInstance.renters(accounts[2]);     
-    assert.equal(theRenter.renterAddress, accounts[2], "Renter was not saved");
+    const sa = await SharedApartmentFactory.deployed()
+    await sa.createApartment()
+    await sa.addRenter(accounts[1]);
+    let theRenter = await sa.getRenter(accounts[0], accounts[1])
+    assert.equal(theRenter.renterAddress, accounts[1], "Renter was not saved");
   });
 
-  it("renter can not set rent", async function() {
-    const saInstance = await SharedApartment.deployed();
-    try {
-      await saInstance.setRent(1, {from: accounts[2]});
-    } catch {}
-    const theRent = await saInstance.rent();
-    assert.equal(theRent, 1000, "Renter can modify the rent!")
-  });
-
-  it("renter can be accessed by address", async function () {
-    const saInstance = await SharedApartment.deployed();
-    await saInstance.addRenter(accounts[4]);
-    const theRenter = await saInstance.renters(accounts[4]);
-    assert.equal(theRenter.renterAddress, accounts[4], "renter can not be accessed by address") 
-  });
-
+  // first adds a new renter, checks if renter was saved and then deletes the renter
   it("renter can be removed", async function() {
-    const saInstance = await SharedApartment.deployed();
+    const sa = await SharedApartmentFactory.deployed()
     // add renter
-    await saInstance.addRenter(accounts[3], {from: accounts[0]});
-    const theRenter = await saInstance.renters(accounts[3]);
-    assert(theRenter != undefined, "renter was not saved!");
+    await sa.addRenter(accounts[2])
+    const theRenter = await sa.getRenter(accounts[0], accounts[2])
+    assert(theRenter.renterAddress != '0x0000000000000000000000000000000000000000', "renter was not saved!")
     //delete renter
-    await saInstance.removeRenter(theRenter.renterAddress);
-    const deletedRenter = await saInstance.renters[accounts[3]];
-    assert.equal(deletedRenter, undefined, "Renter was not deleted!");
+    await sa.removeRenter(theRenter.renterAddress)
+    let deletedRenter = await sa.getRenter(accounts[0], accounts[2])
+    assert.equal(deletedRenter.renterAddress, '0x0000000000000000000000000000000000000000', "Renter was not deleted!")
   });
 
+  // checks if the renter from the "add renter" test can pay rent
   it("renter can pay rent", async function() {
-    const saInstance = await SharedApartment.deployed();
-    let theRenter = await saInstance.renters(accounts[2]);  
-    const theRent = await saInstance.rent();   
-    await saInstance.payRent({from: theRenter.renterAddress, value: theRent});
-    const theRRTC = await saInstance.rentToCollect();
-    theRenter = await saInstance.renters(accounts[2]);  
-    assert.deepEqual(theRRTC, theRent, "The rentToCollect is not equal to the rent paid!");
-    assert.isTrue(theRenter.paidRent, "it was not saved that the renter has paid rent!")
+    const sa = await SharedApartmentFactory.deployed()
+    let theRent = await sa.addressToApartment(accounts[0])
+    theRent = theRent.rent.ammount
+    await sa.payRent(accounts[0], {from: accounts[1], value: theRent})
+    let theRTC = await sa.addressToApartment(accounts[0])
+    theRTC = theRTC.rent.collectable
+    assert.deepEqual(theRTC, theRent, "The collectable rent is not equal to the rent paid!");
   });
 
+  // checks if the owner can collect the rent paid in the previous test
   it("owner can collect rent", async function() {
-    const saInstance = await SharedApartment.deployed();
-    const theOwner = await saInstance.owner();
-    await saInstance.collectRent({from: theOwner});
-    const theRRTC = await saInstance.rentToCollect();
-    assert.equal(theRRTC, 0, "Rent was not collected!");
+    const sa = await SharedApartmentFactory.deployed();
+    await sa.collectRent();
+    let theRTC = await sa.addressToApartment(accounts[0])
+    theRTC = theRTC.rent.collectable
+    assert.equal(theRTC, 0, "Rent was not collected!");
+    // assert.equal(accounts[0]., 0, "Rent was not collected!");
   });
 });

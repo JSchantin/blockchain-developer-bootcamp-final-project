@@ -12,17 +12,11 @@ const abi = [
       {
         "indexed": true,
         "internalType": "address",
-        "name": "previousOwner",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
+        "name": "creator",
         "type": "address"
       }
     ],
-    "name": "OwnershipTransferred",
+    "name": "apartmentCreated",
     "type": "event"
   },
   {
@@ -102,12 +96,70 @@ const abi = [
     "payable": true
   },
   {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
+    "inputs": [
       {
         "internalType": "address",
         "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "addressToApartment",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "ammount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collectable",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "lastCollected",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct SharedApartmentFactory.Rent",
+        "name": "rent",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "stateMutability": "payable",
+    "type": "receive",
+    "payable": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_owner",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
+      }
+    ],
+    "name": "getRenterAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "renters",
         "type": "address"
       }
     ],
@@ -116,36 +168,14 @@ const abi = [
     "constant": true
   },
   {
-    "inputs": [],
-    "name": "rent",
-    "outputs": [
+    "inputs": [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "_owner",
+        "type": "address"
       }
     ],
-    "stateMutability": "view",
-    "type": "function",
-    "constant": true
-  },
-  {
-    "inputs": [],
-    "name": "rentLastCollected",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function",
-    "constant": true
-  },
-  {
-    "inputs": [],
-    "name": "rentToCollect",
+    "name": "getRenterAddressesLength",
     "outputs": [
       {
         "internalType": "uint256",
@@ -160,17 +190,44 @@ const abi = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "renterAddresses",
-    "outputs": [
+        "internalType": "address",
+        "name": "_owner",
+        "type": "address"
+      },
       {
         "internalType": "address",
-        "name": "",
+        "name": "_renterAddress",
         "type": "address"
+      }
+    ],
+    "name": "getRenter",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "renterAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "renterId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint16",
+            "name": "strikes",
+            "type": "uint16"
+          },
+          {
+            "internalType": "bool",
+            "name": "paidRent",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct SharedApartmentFactory.Renter",
+        "name": "renter",
+        "type": "tuple"
       }
     ],
     "stateMutability": "view",
@@ -178,74 +235,18 @@ const abi = [
     "constant": true
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "renters",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "renterAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "renterId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint16",
-        "name": "strikes",
-        "type": "uint16"
-      },
-      {
-        "internalType": "bool",
-        "name": "paidRent",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function",
-    "constant": true
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "transferOwnership",
+    "inputs": [],
+    "name": "createApartment",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "renounceOwnership",
+    "name": "deleteApartment",
     "outputs": [],
-    "stateMutability": "pure",
-    "type": "function",
-    "constant": true
-  },
-  {
-    "inputs": [],
-    "name": "renterAddressesLength",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "inputs": [
@@ -294,7 +295,13 @@ const abi = [
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_apartmentOwner",
+        "type": "address"
+      }
+    ],
     "name": "payRent",
     "outputs": [],
     "stateMutability": "payable",
@@ -303,98 +310,119 @@ const abi = [
   }
 ]
 // const saAddress = '0x57764D0034B18FA8aA2CC76AA422cd97d5699Dc4' //rinkeby
-const saAddress = '0xa82729d001a2f3aaB52435755035fb57310255B7' //localhost
+const saAddress = '0xC14BFFD0dB3ff28474B37E4589a366b133aE6c38' //localhost
 const sharedApartment = new web3.eth.Contract(abi, saAddress)
 sharedApartment.setProvider(window.ethereum)
 
-let role = ""
+var role = ""
+var ownerAddress = '0x0000000000000000000000000000000000000000'
+//get owneraddress from storage
+if ('Owner' in sessionStorage) {
+  ownerAddress = window.sessionStorage.getItem('Owner')
+}
 
-// check for events
+// checks for events
 
 sharedApartment.events.renterAdded(function(error, event){
   if(role != "OWNER") return
-  alert('Renter added!')
+  alert('Renter added!  ' + event.returnValues['renter'])
   location.reload();
 })
 
 sharedApartment.events.renterRemoved(function(error, event){
   if(role != "OWNER") return
-  alert('Renter removed!')
+  alert('Renter removed!  ' + event.returnValues['renter'])
   location.reload();
 })
 
 sharedApartment.events.rentSet(function(error, event){
   if(role != "OWNER") return
   alert('New rent set to ' + web3.utils.fromWei(event.returnValues['rent']) + 'ETH')
+  location.reload()
 })
 
 sharedApartment.events.rentCollected(function(error, event){
   if(role != "OWNER") return
-  alert('Rent collected!')
-  location.reload();
+  alert('Rent collected!  ' + web3.utils.fromWei(event.returnValues['rentCollected']) + 'ETH')
+  location.reload()
 })
 
 sharedApartment.events.rentPaid(function(error, event){
   if(role != "RENTER") return
-  alert('Rent paid!')
+  alert('Rent paid!  ' + event.returnValues['renter'])
+  location.reload()
 })
 
 // functions
+
+// check for address change
+window.ethereum.on('accountsChanged', function (accounts) {
+  location.reload()
+})
 
 // check if wallet is installed
 window.addEventListener('load', async function () {
     if(typeof window.ethereum !== 'undefined') {
         console.log('Wallet detected!')
-        web3.setProvider(window.ethereum)
+        document.getElementById('address').innerHTML = web3.currentProvider.selectedAddress
         console.log("web3 selected address: " + web3.currentProvider.selectedAddress)
+        if(web3.currentProvider.selectedAddress != null ) {
+          document.getElementById('connect-mm').display = 'none'
+        }
     } else {
         console.log('No wallet detected!')
         document.getElementById('address').innerHTML = 'No wallet detected!'
     }
-    getRole()
-    fillRenterList()
-    displayOwner()
-    fillForms()
+    //building the website
+  displayOwner()
+  await getRole()
+  displayForm()
+  await fillForms()
+})
+
+document.getElementById('set-owner').addEventListener('click', async function () {
+  await setOwnerAddress()
+  await getRole()
+  displayForm()
 })
 
 // connect metamask button
 async function connectMM() {
     let brert = await window.ethereum.request({ method: 'eth_requestAccounts' })
     document.getElementById('address').innerHTML = brert
-    getRole()
 }
 
 // displays owner address 
-async function displayOwner() {
-    let brert = await sharedApartment.methods.owner().call()
-    document.getElementById('ownerAddress').innerHTML = brert
+function displayOwner() {
+  if (ownerAddress != '0x0000000000000000000000000000000000000000') {
+    document.getElementById('ownerAddress').innerHTML = ownerAddress
+  }
+  else {
+    document.getElementById('ownerAddress').innerHTML = 'No Apartment selected'
+  }
 }
 
 // check if user is owner or renter
 async function getRole() {
-  role = ""
-  let brert = await sharedApartment.methods.owner().call()
-  let brort = web3.currentProvider.selectedAddress
-  if(brert.toLowerCase() === brort) {
+  if(ownerAddress.toLowerCase() == await web3.currentProvider.selectedAddress) {
       role = "OWNER"
-      console.log(role)
-      displayForm()
+      console.log('Role: '+ role)
+      fillRenterList()
       return
   } else {
-    let renterAddressesLength = await sharedApartment.methods.renterAddressesLength().call()
-    let brart ='0x0'
-    for (let i = 0; i < renterAddressesLength; i++) {
-      let brart = await sharedApartment.methods.renterAddresses(i).call()
-      if (brart.toLowerCase() === brort) {
+    let _rtAdLng = await sharedApartment.methods.getRenterAddressesLength(ownerAddress.toLowerCase()).call()
+    console.log('getRole: RenterAddressLength: ' + _rtAdLng)
+    for (let i = 0; i < _rtAdLng; i++) {
+      let _rnAd = await sharedApartment.methods.getRenterAddress(ownerAddress.toLowerCase(), i).call()
+      console.log('getRole: for loop: RenterAddress: ' + _rnAd)
+      if (_rnAd.toLowerCase() == web3.currentProvider.selectedAddress.toLowerCase()) {
           role = "RENTER"
           console.log(role)
-          displayForm()
           return
       }
       }
     }
-    console.log(role)
-    displayForm()
+    console.log('Role: ' + role)
 }
 
 // displays options according to role
@@ -404,9 +432,14 @@ function displayForm() {
     let renterForm = document.getElementById('renter-form')
     let newbieForm = document.getElementById('newbie-form')
 
-    if (role == "" && web3.currentProvider.selectedAddress != null) {
-      document.getElementById('start-text').innerHTML = "You are not a renter in this apartment!"
-      document.getElementById('start-button').style.visibility = "hidden"
+    if (role == "" && web3.currentProvider.selectedAddress != null && document.getElementById('owner-address').value != '') {
+      if(web3.currentProvider.selectedAddress.toLowerCase() == document.getElementById('owner-address').value.toLowerCase()) {
+        role = 'OWNER'
+        fillRenterList()
+      } else {
+        alert('You are not a renter or owner in the apartment of ' + document.getElementById('owner-address').value + ' ! Your address: ' + web3.currentProvider.selectedAddress)
+        //document.getElementById('start-button').style.visibility = "hidden"
+      }
     }
 
     if (role == "RENTER") {
@@ -426,13 +459,15 @@ function displayForm() {
 
 // fills textinputs with correct values
 async function fillForms() {
-  let theRent = await sharedApartment.methods.rent().call()
-  document.getElementById('pay-rent').value = (web3.utils.fromWei(theRent, 'ether') + 'ETH')
+  var theRent = await sharedApartment.methods.addressToApartment(ownerAddress).call()
+  //console.log(theRent)
+  var theRentAmmount = theRent.rent.ammount
+  document.getElementById('pay-rent').value = (web3.utils.fromWei(theRentAmmount, 'ether') + 'ETH')
 
-  let theRentToCollect = await sharedApartment.methods.rentToCollect().call()
+  let theRentToCollect = theRent.rent.collectable
   document.getElementById('rent-to-collect').value = (web3.utils.fromWei(theRentToCollect, 'ether') + 'ETH')
 
-  let theRentLastCollected = await sharedApartment.methods.rentLastCollected().call()
+  let theRentLastCollected = theRent.rent.lastCollected
   let date = new Date(Number(theRentLastCollected) * 1000)
   document.getElementById('rent-last-collected').value = date
 
@@ -441,13 +476,16 @@ async function fillForms() {
 
 // displays all renters on the website
 async function fillRenterList() {
-  // if(role != 'OWNER') {return}
+  if (ownerAddress.toLowerCase() != web3.currentProvider.selectedAddress) return //only execute if its the owner
   let renterList = document.getElementById('renter-list')
-  let renterAddressesLength = await sharedApartment.methods.renterAddressesLength().call()
+  let renterAddressesLength = await sharedApartment.methods.getRenterAddressesLength(ownerAddress).call({from: web3.currentProvider.selectedAddress})
 
+  console.log(renterAddressesLength + '    -rentaddlength')
+  
   for (let i = 0; i < renterAddressesLength; i++) {
-    let hjfg = await sharedApartment.methods.renterAddresses(i).call()
-    let renter = await sharedApartment.methods.renters(hjfg).call()
+    var _renAdd = await sharedApartment.methods.getRenterAddress(web3.currentProvider.selectedAddress, i).call()
+    let renter = await sharedApartment.methods.getRenter(web3.currentProvider.selectedAddress, _renAdd).call()
+    console.log(renter + '   -renter')
     let newRenter = document.createElement('div')
     newRenter.className = 'pure-u renter-box'
     newRenter.innerHTML = (
@@ -471,44 +509,64 @@ async function fillRenterList() {
 
 // smartcontract interaction functions
 
+// sets the owner address for the frontend
+async function setOwnerAddress() {
+  var _ownerAddress = document.getElementById('owner-address').value.toLowerCase()
+  var aprtownr = await sharedApartment.methods.addressToApartment(_ownerAddress).call()
+  aprtownr = aprtownr.owner.toLowerCase()
+  if (aprtownr == _ownerAddress) { //check if apartment exists
+    ownerAddress = _ownerAddress
+    displayOwner()
+    window.sessionStorage.setItem('Owner',ownerAddress)
+  } else {
+    alert('The Shared Apartment with the owner ' + _ownerAddress + ' does not exist!')
+  }
+}
+// creates apartment with current address as owner
+async function createApartment() {
+  await sharedApartment.methods.createApartment().send({from: web3.givenProvider.selectedAddress})
+}
+
+async function deleteApartment() {
+  await sharedApartment.methods.deleteApartment().send({from: web3.givenProvider.selectedAddress})
+}
+
 async function addRenter() {
-    let renterAddress = document.getElementById('add-renter').value
-    await sharedApartment.methods.addRenter(renterAddress).send({from: web3.givenProvider.selectedAddress})
+  if (web3.givenProvider.selectedAddress != ownerAddress.toLocaleLowerCase()) return
+  let renterAddress = document.getElementById('add-renter').value
+  await sharedApartment.methods.addRenter(renterAddress).send({from: web3.givenProvider.selectedAddress})
 }
 
 async function removeRenter(renterAddress) {
-    await sharedApartment.methods.removeRenter(renterAddress).send({from: web3.givenProvider.selectedAddress})
+  if (web3.givenProvider.selectedAddress != ownerAddress.toLocaleLowerCase()) return
+  await sharedApartment.methods.removeRenter(renterAddress).send({from: web3.givenProvider.selectedAddress})
 }
 
 async function setRent() {
-    let theRent = web3.utils.toWei(document.getElementById('new-rent').value, 'ether')
-    await sharedApartment.methods.setRent(theRent).send({from: web3.givenProvider.selectedAddress})
+  if (web3.givenProvider.selectedAddress != ownerAddress.toLocaleLowerCase()) {
+    alert(web3.givenProvider.selectedAddress + '  ' + ownerAddress)
+  }
+  let theRent = web3.utils.toWei(document.getElementById('new-rent').value, 'ether')
+  await sharedApartment.methods.setRent(theRent).send({from: web3.givenProvider.selectedAddress})
 }
 
 async function collectRent() {
-  let lastCollectedDate = await sharedApartment.methods.rentLastCollected().call()
-  // lastCollectedDate = new Date(lastCollectedDate * 1000)
-  // console.log(lastCollectedDate.setTime(lastCollectedDate.getTime() + 2592 * 1000000))
-  // if (lastCollectedDate.setTime(lastCollectedDate.getTime()) < Date.now()) {
-  //   console.log('fwejqun')
-  // }
-    let transaction = {
-        from: web3.currentProvider.selectedAddress,
-    }
-    await sharedApartment.methods.collectRent().send(transaction)
+  if (web3.givenProvider.selectedAddress != ownerAddress) return
+  await sharedApartment.methods.collectRent().send({from: web3.currentProvider.selectedAddress})
 }
 
 async function payRent() {
-    let theRenter = await sharedApartment.methods.renters(web3.givenProvider.selectedAddress).call()
+    let theRenter = await sharedApartment.methods.getRenter(ownerAddress, web3.givenProvider.selectedAddress).call()
     if (theRenter.paidRent == true) {
         alert('You already paid rent this month!')
         return
     }
 
-    let theRent = await sharedApartment.methods.rent().call()
+    let theRent = await sharedApartment.methods.addressToApartment(ownerAddress).call()
+    theRent = theRent.rent.ammount
     let transaction = {
         from: web3.currentProvider.selectedAddress,
         value: theRent
     }
-    await sharedApartment.methods.payRent().send(transaction)
+    await sharedApartment.methods.payRent(ownerAddress).send(transaction)
 }

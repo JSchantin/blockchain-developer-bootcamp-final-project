@@ -1,5 +1,5 @@
-const SharedApartment = artifacts.require("SharedApartment");
+const SharedApartmentFactory = artifacts.require("SharedApartmentFactory");
 
 module.exports = function (deployer) {
-  deployer.deploy(SharedApartment);
+  deployer.deploy(SharedApartmentFactory);
 };

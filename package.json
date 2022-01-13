@@ -4,6 +4,7 @@
     "@openzeppelin/contracts": "^4.3.3",
     "@openzeppelin/upgrades": "^2.8.0",
     "@truffle/hdwallet-provider": "^1.7.0",
+    "create-react-app": "^4.0.3",
     "dotenv": "^10.0.0",
     "web3": "^1.6.1"
   }
