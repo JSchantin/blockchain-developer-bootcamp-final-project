@@ -309,8 +309,8 @@ const abi = [
     "payable": true
   }
 ]
-// const saAddress = '0x57764D0034B18FA8aA2CC76AA422cd97d5699Dc4' //rinkeby
-const saAddress = '0xC14BFFD0dB3ff28474B37E4589a366b133aE6c38' //localhost
+const saAddress = '0x40915E33Ec61b41cF3Adf9DDaB90E61A856496D4' //rinkeby
+//const saAddress = '0xC14BFFD0dB3ff28474B37E4589a366b133aE6c38' //localhost
 const sharedApartment = new web3.eth.Contract(abi, saAddress)
 sharedApartment.setProvider(window.ethereum)
 
