@@ -34,13 +34,13 @@ Make sure you have npm, Metamask, Ganache and Truffle installed.
  3. start a ganache testnet on port _8545_
  4. run _truffle test_ to run the unit tests for the contract, all tests should pass
  5. run _truffle migrate_
- 6. open the file _dapp.js_: navigate to line 305 and delete the rinkeby _saAddress_ line. Then uncomment the localhost address and replace it with the address your contract was deployed to in the previous step.
-   _If you have VS Code and the Live Server plugin installed, start the server and skip to step 7_
+ 6. open the file _dapp.js_: navigate to line 305 and delete the rinkeby _saAddress_ line.<br>Then uncomment the localhost address and replace it with the address your contract was deployed to in the previous step.<br><br>
+   _If you have VS Code and the Live Server plugin installed, start the server and skip to step 10_<br><br>
  7. run _npm install http-server -g_ to install http-server globally
  8. run _http-server_ to start the http-server and to use the frontend localy
  9. now you can access the frontend via an address provided be the http-server
  10. make sure the Metamask network is set to local Host
  11. connect metamask to the website
- 12. import an account provided by ganache to have test ether to use
+ 12. import an account to Metamask provided by ganache to have test ether to use
    
  Congratulations, you are now able to use the smart contract via the frontend locally!
