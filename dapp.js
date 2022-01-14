@@ -92,8 +92,7 @@ const abi = [
   },
   {
     "stateMutability": "payable",
-    "type": "fallback",
-    "payable": true
+    "type": "fallback"
   },
   {
     "inputs": [
@@ -134,13 +133,11 @@ const abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "stateMutability": "payable",
-    "type": "receive",
-    "payable": true
+    "type": "receive"
   },
   {
     "inputs": [
@@ -164,8 +161,7 @@ const abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -184,8 +180,7 @@ const abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -231,8 +226,7 @@ const abi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -305,11 +299,10 @@ const abi = [
     "name": "payRent",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function",
-    "payable": true
+    "type": "function"
   }
 ]
-const saAddress = '0x40915E33Ec61b41cF3Adf9DDaB90E61A856496D4' //rinkeby
+const saAddress = '0x35765288b613BaDdf553eF538A71E554913b774B' //rinkeby
 //const saAddress = '0xC14BFFD0dB3ff28474B37E4589a366b133aE6c38' //localhost
 const sharedApartment = new web3.eth.Contract(abi, saAddress)
 sharedApartment.setProvider(window.ethereum)
