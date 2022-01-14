@@ -29,13 +29,17 @@ The Frontend is composed of the files _index.html_ and _dapp.js_.
  # Testing and running it locally
 Make sure you have npm, Metamask, Ganache and Truffle installed.
 
- 1. clone the repository
+ 1. clone the repository to your machine
  2. Install dependencies: _npm install_
  3. start a ganache testnet on port _8545_
- 4. run _truffle test_ to run the unit tests for the contract
- 5. run _npm install http-server -g_ to install http-server globally
- 6. run _http-server_ to start the http-server and to use the frontend localy
- 7. now you can access the frontend via an address provided be the http-server
- 8. make sure the Metamask network is set to local Host
+ 4. run _truffle migrate_
+ 5. run _truffle test_ to run the unit tests for the contract, all tests should pass
+   _If you have VS Code and the Live Server plugin installed, start the server and skip to step 7_
+ 6. run _npm install http-server -g_ to install http-server globally
+ 7. run _http-server_ to start the http-server and to use the frontend localy
+ 8. now you can access the frontend via an address provided be the http-server
+ 9. make sure the Metamask network is set to local Host
+ 10. connect metamask to the website
+ 11. import an account provided by ganache to have test ether to use
    
  Congratulations, you are now able to use the smart contract via the frontend locally!
