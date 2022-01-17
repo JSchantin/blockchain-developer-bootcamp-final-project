@@ -13,7 +13,7 @@ The owner of the apartment can use this smartcontract to keep track of the rent 
 - the owner can remove renters from the apartment or delete the apartment
 
 <br>
- ETH Address for certification: 0x817662b2a3aDdb62295846fB29Cd3c4cC6adCC38
+ ETH Address for certification: 0x057EEc37e70DdF2C4a1A4c1d06ABa7CD78C9846e
 <br><br>
 
 ## Frontend
@@ -29,7 +29,7 @@ The Frontend is composed of the files _index.html_ and _dapp.js_.
  # Testing and running it locally
 Make sure you have npm, Metamask, Ganache and Truffle installed.
 
- 1. clone the repository to your machine
+ 1. clone the repository to your machine and open the terminal in the project folder
  2. Install dependencies: _npm install_
  3. start a ganache testnet on port _8545_
  4. run _truffle test_ to run the unit tests for the contract, all tests should pass
@@ -40,7 +40,7 @@ Make sure you have npm, Metamask, Ganache and Truffle installed.
  8. run _http-server_ to start the http-server and to use the frontend localy
  9. now you can access the frontend via an address provided be the http-server
  10. make sure the Metamask network is set to local Host
- 11. connect metamask to the website
- 12. import an account to Metamask provided by ganache to have test ether to use
+ 11. import an account to Metamask provided by ganache to have test ether to use
+ 12. connect metamask to the website by clicking the "connect metamask" button
    
  Congratulations, you are now able to use the smart contract via the frontend locally!
