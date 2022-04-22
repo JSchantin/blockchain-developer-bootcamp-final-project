@@ -18,7 +18,7 @@ The owner of the apartment can use this smartcontract to keep track of the rent 
 
 ## Frontend
 Connect to the Rinkeby testnet and explore the frontend:
-https://lordjohn1.github.io/blockchain-developer-bootcamp-final-project/
+https://jschantin.github.io/blockchain-developer-bootcamp-final-project/
 
 Video walkthrough: https://drive.google.com/file/d/1mxD_1mR7CBT3dHflsl_1GzP--Z240whF/view?usp=sharing
 
